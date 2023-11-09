@@ -2,26 +2,26 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
     labels:
-        app: spare-drain-microservice
+        app: spare-drain-ed-microservice
         stack: frontend
         source: demo
-    name: spare-drain-microservice
+    name: spare-drain-ed-microservice
     namespace: microservices
 spec:
     replicas: 3
     selector:
         matchLabels:
-            run: spare-drain-microservice
+            run: spare-drain-ed-microservice
     template:
         metadata:
             labels:
-                app: spare-drain-microservice
-                run: spare-drain-microservice
+                app: spare-drain-ed-microservice
+                run: spare-drain-ed-microservice
                 source: demo
         spec:
             containers:
-                -   image: 219099013464.dkr.ecr.us-west-2.amazonaws.com/spare-drain-microservice
-                    name: spare-drain-microservice
+                -   image: 219099013464.dkr.ecr.us-west-2.amazonaws.com/spare-drain-ed-microservice
+                    name: spare-drain-ed-microservice
                     ports:
                         -   name: web
                             containerPort: 8080
@@ -31,14 +31,14 @@ kind: Service
 apiVersion: v1
 metadata:
     labels:
-        app: spare-drain-microservice-service
+        app: spare-drain-ed-microservice-service
         stack: frontend
-    name: spare-drain-microservice-service
+    name: spare-drain-ed-microservice-service
     namespace: microservices
 spec:
     selector:
         source: demo
-        app: spare-drain-microservice
+        app: spare-drain-ed-microservice
     ports:
         -   name: web
             protocol: TCP
@@ -54,7 +54,7 @@ metadata:
         stack: frontend
     annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
-    name: spare-drain-ingress
+    name: spare-drain-ed-ingress
     namespace: microservices
 spec:
     ingressClassName: nginx
@@ -62,10 +62,10 @@ spec:
         -   http:
                 paths:
                     -  pathType: Prefix 
-                       path: /spare-drain(/|$)(.*)
+                       path: /spare-drain-ed(/|$)(.*)
                        backend:
                           service:
-                            name: spare-drain-microservice-service
+                            name: spare-drain-ed-microservice-service
                             port: 
                                number: 30201
 
